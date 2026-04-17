@@ -1,49 +1,98 @@
-Some print drivers are not compatible with ARM64 architecture, and some Printers do not have ARM64 drivers available.
-These printers are often compatible with standard drivers like: Microsoft PS Class, Microsoft PCL6, or Microsoft IPP.
-IPP, Internet Printing Protocol, is the same protocol used within Apple AirPrint, and is essentially "Driverless". Most modern printers support IPP. 
-The script used here attempts to install Microsoft PS Class, then Microsoft PCL6, and defaults to Microsoft IPP
+## ARM64 Printer Driver Notes
 
-~\Source: include install.ps1, uninstall.ps1
+Some print drivers are not compatible with ARM64 architecture, and some printers do not have ARM64 drivers available.
 
-install.ps1 & uninstall.ps1:  These scripts are standard, no need to update per installation.
-Install & uninstall command: Printer variables are declared through the install and uninstall commands, update these per installation
-Detection Script: Update Variables per installation
+These printers are often compatible with standard drivers like:
+- Microsoft PS Class
+- Microsoft PCL6
+- Microsoft IPP
 
-Example Request:
-Printer Model: Konica Minolta Bizhub c301i
-IP Address: 192.168.1.30
-Printer Name: Mpls Printer
+IPP (Internet Printing Protocol) is the same protocol used within Apple AirPrint and is essentially "driverless". Most modern printers support IPP.
 
-Install Command:
+The script used here attempts:
+1. Microsoft PS Class
+2. Microsoft PCL6
+3. Defaults to Microsoft IPP
+
+---
+
+## Source Files
+
+Source:
+  install.ps1
+  uninstall.ps1
+
+- install.ps1 & uninstall.ps1: Standard scripts, no changes required
+- Install & Uninstall Commands: Update variables per deployment
+- Detection Script: Update variables per deployment
+
+---
+
+## Example Request
+
+- Printer Model: Konica Minolta Bizhub C301i
+- IP Address: 192.168.1.30
+- Printer Name: Mpls Printer
+
+### Install Command
+```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\install.ps1 -PortName "IP_192.168.1.30" -PrinterIP "192.168.1.30" -PrinterName "Mpls Printer"
-Uninstall Command:
+```
+
+### Uninstall Command
+```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\Uninstall.ps1 -PrinterName "Mpls Printer"
+```
 
-Scope to ARM64
-Restrict the new installer to only run on ARM64.
-Select your app within Intune, Navigate to Properties -> Edit Requirements -> Select "Yes. Specify the systems the app can be installed on." -> Set to "Install on ARM64 System"
-<img width="585" height="171" alt="image" src="https://github.com/user-attachments/assets/c5a5d9dc-ce93-4799-8e80-3b2c5c768e70" />
+---
 
-Restrict the failing installer to only run on x64:
-Find the failing app within Intune -> Navigate to Properties -> Edit Requirements -> Select "Yes. Specify the systems the app can be installed on." -> Set to "Install on x64 System"
-<img width="539" height="174" alt="image" src="https://github.com/user-attachments/assets/a276ad51-990b-47f8-a1b1-a023fe1e48b2" />
+## Intune Requirements
 
+### Scope to ARM64
+Restrict the new installer to only run on ARM64:
 
-Logging
-Log file: C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\IntunePrinterInstall.log
+Intune > App > Properties > Edit Requirements  
+→ Specify systems = Yes  
+→ Install on ARM64 System  
 
-To review failed installations:
-"Collect Diagnostics" from the device via Intune > Download & Open Folder >
-~\(67) FoldersFiles ProgramData_Microsoft_IntuneManagementExtension_Logs\IntunePrinterInstall.log
-Source Folder
-Source Folder needs to include install.ps1 & uninstall.ps1,
+<img src="https://github.com/user-attachments/assets/c5a5d9dc-ce93-4799-8e80-3b2c5c768e70" width="585"/>
 
-~\Konica Bizhub C301i ARM64\Source:
-|   install.ps1
-|   uninstall.ps1
+---
 
-Intune App Packaging Reference
+### Restrict failing installer to x64
 
-MS Learn - Intune App Packing: https://learn.microsoft.com/en-us/intune/intune-service/apps/apps-win32-prepare
-"When you're generating an .intunewin file, put any files you need to reference into a subfolder of the setup folder. 
-Then, use a relative path to reference the specific file you need. For example:
+Intune > App > Properties > Edit Requirements  
+→ Specify systems = Yes  
+→ Install on x64 System  
+
+<img src="https://github.com/user-attachments/assets/a276ad51-990b-47f8-a1b1-a023fe1e48b2" width="539"/>
+
+---
+
+## Logging
+
+Log file:
+C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\IntunePrinterInstall.log
+
+### Review failed installations
+
+Intune → Device → Collect Diagnostics  
+→ Download & Open Folder  
+→ ProgramData_Microsoft_IntuneManagementExtension_Logs\IntunePrinterInstall.log  
+
+---
+
+## Source Folder Example
+
+Konica Bizhub C301i ARM64\
+└── Source\
+    ├── install.ps1
+    └── uninstall.ps1
+
+---
+
+## Intune App Packaging Reference
+
+https://learn.microsoft.com/en-us/intune/intune-service/apps/apps-win32-prepare
+
+"When you're generating an .intunewin file, put any files you need to reference into a subfolder of the setup folder. Then, use a relative path to reference the specific file you need."

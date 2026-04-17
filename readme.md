@@ -22,7 +22,7 @@ powershell.exe -ExecutionPolicy Bypass -File .\Uninstall.ps1 -PrinterName "Mpls 
 Scope to ARM64
 Restrict the new installer to only run on ARM64.
 Select your app within Intune, Navigate to Properties -> Edit Requirements -> Select "Yes. Specify the systems the app can be installed on." -> Set to "Install on ARM64 System"
-<img width="539" height="174" alt="image" src="https://github.com/user-attachments/assets/ad864887-3dd0-4ece-b644-0253837d866f" />
+<img width="585" height="171" alt="image" src="https://github.com/user-attachments/assets/c5a5d9dc-ce93-4799-8e80-3b2c5c768e70" />
 
 Restrict the failing installer to only run on x64:
 Find the failing app within Intune -> Navigate to Properties -> Edit Requirements -> Select "Yes. Specify the systems the app can be installed on." -> Set to "Install on x64 System"

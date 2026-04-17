@@ -1,6 +1,6 @@
-$PrinterName = "Mpls HQ Printer"
-$PortName    = "IP_192.168.165.30"
-$PrinterIP   = "192.168.165.30"
+$PrinterName = "Mpls Printer"
+$PortName    = "IP_192.168.1.30"
+$PrinterIP   = "192.168.1.30"
 
 $LogPath = "C:\ProgramData\Microsoft\IntuneManagementExtension\Logs\IntunePrinterDetect.log"
 
